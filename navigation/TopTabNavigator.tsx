@@ -1,4 +1,5 @@
 import React from "react";
+import { StatusBar } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import Home from "../screens/home";
@@ -9,7 +10,7 @@ const Tab = createMaterialTopTabNavigator();
 
 export default function index() {
   return (
-    <Tab.Navigator style={{ marginTop: 20 }}>
+    <Tab.Navigator style={{ marginTop: StatusBar.currentHeight }}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Projects" component={Projects} />
       <Tab.Screen name="Workshop" component={Workshop} />

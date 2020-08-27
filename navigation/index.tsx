@@ -4,12 +4,11 @@ import TopTabNavigator from "./TopTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
 
 export default function Navigation() {
-  console.log(DefaultTheme);
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={DefaultTheme}
-      onStateChange={(state) => console.log("New state is", state)}
+      onStateChange={(state) => {}}
     >
       <TopTabNavigator />
     </NavigationContainer>
