@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   switchUser: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     padding: 20,
   },
   submitContainer: {
