@@ -1,30 +1,15 @@
 import React, { useState, useCallback } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Button,
-  TextInput,
-  Picker,
-} from "react-native";
+import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 import { useDispatch } from "react-redux";
-
-import { Countries } from "../../constants/countries";
-import { ICountry } from "../../types/countries";
 
 export default function index() {
   const [userName, setUserName] = useState("");
-  const [userCountry, setUserCountry] = useState("");
-  const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
   const dispacher = useDispatch();
 
   const handleUserNameChange = useCallback((value: string) => {
     setUserName(value);
-  }, []);
-  const handleUserEmailChange = useCallback((value: string) => {
-    setUserEmail(value);
   }, []);
   const handleUserPasswordChange = useCallback((value: string) => {
     setUserPassword(value);
@@ -36,40 +21,14 @@ export default function index() {
   }, []);
   return (
     <View style={styles.container}>
-      <Text style={styles.title}> REGISTRY </Text>
+      <Text style={styles.title}> LOGIN </Text>
       <Text style={styles.label}> User name </Text>
       <TextInput
         style={styles.textInput}
         onChangeText={handleUserNameChange}
         value={userName}
       />
-      <Text style={styles.label}> Country </Text>
-      <View style={styles.pickerContainer}>
-        <Picker
-          selectedValue={userCountry}
-          style={styles.picker}
-          onValueChange={(itemValue, itemIndex) =>
-            setUserCountry(itemValue as string)
-          }
-        >
-          {Countries.map((country: ICountry) => {
-            return (
-              <Picker.Item
-                key={country.code}
-                label={country.name_en}
-                value={country.code}
-              />
-            );
-          })}
-        </Picker>
-      </View>
-      <Text style={styles.label}> Email </Text>
-      <TextInput
-        style={styles.textInput}
-        onChangeText={handleUserEmailChange}
-        value={userEmail}
-      />
-      <Text style={styles.label}> Password </Text>
+      <Text style={styles.label}> User name </Text>
       <TextInput
         style={styles.textInput}
         onChangeText={handleUserPasswordChange}
@@ -82,7 +41,6 @@ export default function index() {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     padding: 10,
@@ -105,16 +63,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     padding: 5,
-  },
-  pickerContainer: {
-    width: "100%",
-    borderColor: "grey",
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 5,
-  },
-  picker: {
-    height: 30,
   },
   submitContainer: {
     paddingTop: 10,
