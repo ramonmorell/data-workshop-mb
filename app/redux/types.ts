@@ -1,5 +1,10 @@
 export interface ReduxState {
+  app: AppReducerState;
   user: UserReducerState;
+}
+
+export interface AppReducerState {
+  route: string;
 }
 
 export interface UserReducerState {
@@ -12,5 +17,9 @@ export interface Action {
 }
 
 export interface UserAction extends Action {
+  payload: any;
+}
+
+export interface AppAction extends Action {
   payload: any;
 }

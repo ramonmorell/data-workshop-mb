@@ -28,7 +28,7 @@ export default function index() {
         onChangeText={handleUserNameChange}
         value={userName}
       />
-      <Text style={styles.label}> User name </Text>
+      <Text style={styles.label}> Password </Text>
       <TextInput
         style={styles.textInput}
         onChangeText={handleUserPasswordChange}

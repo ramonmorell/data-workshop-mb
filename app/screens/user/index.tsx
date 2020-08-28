@@ -8,10 +8,12 @@ import {
   Button,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import { actionLogIn } from "../../redux/reducers/userReducer";
 
-import Registry from "../registry";
-import Login from "../login";
+import { actionLogIn } from "../../redux/reducers/userReducer";
+import { Colors } from "../../constants/globalStyles";
+import SwitchLogin from "./switchLogin";
+import Registry from "./registry";
+import Login from "./login";
 
 export default function index() {
   const [switchLogin, setSwitchLogin] = useState(false);
@@ -28,16 +30,7 @@ export default function index() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.switchUser}>
-        <Text> Login </Text>
-        <Switch
-          trackColor={{ false: "#81b0ff", true: "#81b0ff" }}
-          // ios_backgroundColor="#3e3e3e"
-          onValueChange={handleLoginSwitchChange}
-          value={switchLogin}
-        />
-        <Text> Register </Text>
-      </View>
+      <SwitchLogin onChange={handleLoginSwitchChange} />
       <View style={styles.submitContainer}>
         <Button onPress={handlePressSubmit} title="Get in without login" />
       </View>
@@ -48,8 +41,6 @@ export default function index() {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    // alignItems: "center",
     justifyContent: "center",
     marginTop: StatusBar.currentHeight,
   },
@@ -57,6 +48,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     padding: 20,
+  },
+  activated: {
+    color: Colors.primaryDark,
+    borderBottomWidth: 2,
+    borderColor: Colors.primaryDark,
+  },
+  desactivated: {
+    color: Colors.primaryLight,
   },
   submitContainer: {
     padding: 10,
