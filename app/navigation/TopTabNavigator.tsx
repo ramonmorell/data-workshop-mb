@@ -8,7 +8,7 @@ import Workshop from "../screens/workshop";
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function index() {
+export default function TopTabNavigator() {
   return (
     <Tab.Navigator style={{ marginTop: StatusBar.currentHeight }}>
       <Tab.Screen name="Home" component={Home} />

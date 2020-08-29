@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-const globalStyles = StyleSheet.create({
+const GlobalStyles = StyleSheet.create({
   title: {
     fontSize: 20,
     alignSelf: "center",
@@ -38,4 +38,4 @@ export enum Colors {
   danger = "#A52A2A",
 }
 
-export default globalStyles;
+export default GlobalStyles;

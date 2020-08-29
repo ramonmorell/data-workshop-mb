@@ -10,6 +10,8 @@ export default function ProjectFactory() {
   const [projectDescription, setProjectDescription] = useState("");
   const [disableSubmit, setDisableSubmit] = useState(false);
 
+  const httpClient = useHttpClient();
+
   const handleProjectNameChange = useCallback((value) => {
     setProjectName(value);
   }, []);
@@ -26,7 +28,7 @@ export default function ProjectFactory() {
       description: projectDescription,
     };
 
-    useHttpClient()
+    httpClient
       .post(URLS.PROJECT, data)
       .then((response) => {
         Alert.alert("PROJECT ADDED", "Project added succesfully");

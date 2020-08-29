@@ -8,18 +8,20 @@ import { Project } from "../../types/projects";
 import useHttpClient from "../../hooks/useHttpClient";
 import URLS from "../../constants/urls";
 import { mapProject } from "./utils";
+import useLoader from "../../hooks/useLoader";
+import { Loaders } from "../../constants/loaders";
 
 export default function Projects() {
   const [dataProjects, setDataProjects] = useState<Project[]>([]);
-  const [fetchingProjects, setFetchingProjects] = useState(false);
   const [errorProjects, setErrorProjects] = useState(false);
-
+  const httpClient = useHttpClient();
   const route = useSelector((state: ReduxState) => state.app.route);
+  const loader = useLoader();
 
   const getProjects = () => {
-    setFetchingProjects(true);
+    loader.addLoader(Loaders.PROJECT);
     setErrorProjects(false);
-    useHttpClient()
+    httpClient
       .get(URLS.PROJECTS)
       .then((response) => {
         setDataProjects(
@@ -30,7 +32,7 @@ export default function Projects() {
         setErrorProjects(true);
       })
       .finally(() => {
-        setFetchingProjects(false);
+        loader.removeLoader(Loaders.PROJECT);
       });
   };
 
@@ -52,9 +54,7 @@ export default function Projects() {
   );
   return (
     <View>
-      {fetchingProjects ? (
-        <Text>Loading ....</Text>
-      ) : errorProjects ? (
+      {errorProjects ? (
         <Text>Error loading projects</Text>
       ) : (
         <FlatList

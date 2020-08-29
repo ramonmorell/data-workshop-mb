@@ -5,6 +5,7 @@ export interface ReduxState {
 
 export interface AppReducerState {
   route: string;
+  loader: string[];
 }
 
 export interface UserReducerState {

@@ -15,7 +15,7 @@ import SwitchLogin from "./switchLogin";
 import Registry from "./registry";
 import Login from "./login";
 
-export default function index() {
+export default function User() {
   const [switchLogin, setSwitchLogin] = useState(false);
 
   const dispacher = useDispatch();
@@ -59,5 +59,6 @@ const styles = StyleSheet.create({
   },
   submitContainer: {
     padding: 10,
+    zIndex: 0,
   },
 });

@@ -1,11 +1,11 @@
 import React, { useCallback } from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import TopTabNavigator from "./TopTabNavigator";
-import LinkingConfiguration from "./LinkingConfiguration";
 import { useDispatch } from "react-redux";
 import { AntDesign } from "@expo/vector-icons";
 
+import TopTabNavigator from "./topTabNavigator";
+import LinkingConfiguration from "./linkingConfiguration";
 import { actionLogOut } from "../redux/reducers/userReducer";
 import { changeRoute } from "../redux/reducers/appReducer";
 import { Colors } from "../constants/globalStyles";

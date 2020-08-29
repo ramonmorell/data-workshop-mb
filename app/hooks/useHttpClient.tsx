@@ -1,4 +1,4 @@
-export default function useHttpClient() {
+export default function UseHttpClient() {
   const get = async (url: string) => {
     const response = await fetch(url, {
       method: "GET", // *GET, POST, PUT, DELETE, etc.
