@@ -1,0 +1,38 @@
+{
+  "NAV": {
+    "HOME": "Inicio",
+    "PROJECTS": "Proyectos",
+    "WORKSHOP": "Taller"
+  },
+  "HOME": {},
+  "MAIN": {
+    "GET_IN_WITHOUT_LOGIN": "Entrar sin registrarse"
+  },
+  "PROJECTS": {
+    "ERROR_LOADING": "Error cargando los proyectos",
+    "DELETE_PROJECT": "Borrar proyecto",
+    "DELETE_PROJECT_DESCRIPTION": "¿Quieres borrar el proyecto?",
+    "ALERT_DELETE_ACCEPT": "Aceptar",
+    "ALERT_DELETE_CANCEL": "Cancelar"
+  },
+  "USER": {
+    "LOGIN": "ENTRAR",
+    "ENGLISH": "Inglés",
+    "SPANISH": "Español",
+    "SWITCH_LOGIN": "Entrar",
+    "SWITCH_REGISTER": "Registrarse",
+    "LOG_IN": "ENTRAR",
+    "USER_NAME": "Nombre de usuario",
+    "USER_PASSWORD": "Clave",
+    "REGISTRY": "REGISTRARSE",
+    "USER_COUNTRY": "País",
+    "USER_EMAIL": "Email",
+    "REGISTER": "Registrarse"
+  },
+  "WORKSHOP": {
+    "CREATE_NEW_PROJECT": "CREAR NUEVO PROYECTO",
+    "PROJECT_NAME": "Nombre del proyecto",
+    "PROJECT_DESCRIPTION": "Descripción del proyecto",
+    "SAVE": "GUARDAR"
+  }
+}

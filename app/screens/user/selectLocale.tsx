@@ -5,42 +5,46 @@ import i18n from "i18n-js";
 import { Colors } from "../../constants/globalStyles";
 
 interface Props {
-  onChange: (value: boolean) => void;
+  onChange: (value: string) => void;
 }
 
-export default function SwitchLogin({ onChange }: Props) {
-  const [switchLogin, setSwitchLogin] = useState(false);
+export default function SelectLocale({ onChange }: Props) {
+  const [switchLocale, setSwitchLocale] = useState(i18n.locale === "es");
 
-  const handleLoginSwitchChange = useCallback(
+  const handleLocaleSwitchChange = useCallback(
     (value) => {
-      setSwitchLogin(value);
-      onChange(value);
+      setSwitchLocale(value);
+      if (value) {
+        onChange("es");
+      } else {
+        onChange("en");
+      }
     },
-    [onChange]
+    [i18n]
   );
 
   return (
     <View style={styles.container}>
       <View style={styles.switchLabel}>
-        <Text style={!switchLogin ? styles.activated : styles.desactivated}>
-          {i18n.t("USER.SWITCH_LOGIN")}
+        <Text style={!switchLocale ? styles.activated : styles.desactivated}>
+          {i18n.t("USER.ENGLISH")}
         </Text>
       </View>
       <Switch
         trackColor={{ false: Colors.primaryLight, true: Colors.primaryLight }}
         thumbColor={Colors.primaryDark}
         // ios_backgroundColor="#3e3e3e"
-        onValueChange={handleLoginSwitchChange}
-        value={switchLogin}
+        onValueChange={handleLocaleSwitchChange}
+        value={switchLocale}
       />
       <View style={styles.switchLabel}>
         <Text
           style={[
-            switchLogin ? styles.activated : styles.desactivated,
+            switchLocale ? styles.activated : styles.desactivated,
             { textAlign: "right" },
           ]}
         >
-          {i18n.t("USER.SWITCH_REGISTER")}
+          {i18n.t("USER.SPANISH")}
         </Text>
       </View>
     </View>

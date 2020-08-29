@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   nameContainer: {
     width: "100%",
   },
-  name: { width: "100%" },
+  name: { width: "100%", fontWeight: "bold" },
   descriptionContainer: { width: "100%" },
   description: { width: "100%" },
   buttonDeleteContainer: {

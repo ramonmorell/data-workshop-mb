@@ -1,22 +1,18 @@
 import React, { useState, useCallback } from "react";
-import {
-  View,
-  Text,
-  StatusBar,
-  Switch,
-  StyleSheet,
-  Button,
-} from "react-native";
+import { View, StatusBar, StyleSheet, Button } from "react-native";
 import { useDispatch } from "react-redux";
+import i18n from "i18n-js";
 
 import { actionLogIn } from "../../redux/reducers/userReducer";
 import { Colors } from "../../constants/globalStyles";
+import SwitchLocale from "./selectLocale";
 import SwitchLogin from "./switchLogin";
 import Registry from "./registry";
 import Login from "./login";
 
 export default function User() {
   const [switchLogin, setSwitchLogin] = useState(false);
+  const [switchLocale, setSwitchLocale] = useState("");
 
   const dispacher = useDispatch();
 
@@ -24,18 +20,36 @@ export default function User() {
     setSwitchLogin(value);
   }, []);
 
+  const handleLocaleSwitchChange = useCallback(
+    (value) => {
+      i18n.locale = value;
+      setSwitchLocale(value);
+    },
+    [i18n]
+  );
+
   const handlePressSubmit = useCallback((value) => {
     dispacher(actionLogIn());
   }, []);
 
   return (
-    <View style={styles.container}>
-      <SwitchLogin onChange={handleLoginSwitchChange} />
-      <View style={styles.submitContainer}>
-        <Button onPress={handlePressSubmit} title="Get in without login" />
-      </View>
-      {switchLogin ? <Registry /> : <Login />}
-    </View>
+    <>
+      {switchLocale !== null ? (
+        <>
+          <View style={styles.container}>
+            <SwitchLocale onChange={handleLocaleSwitchChange} />
+            <SwitchLogin onChange={handleLoginSwitchChange} />
+            <View style={styles.submitContainer}>
+              <Button
+                onPress={handlePressSubmit}
+                title={i18n.t("MAIN.GET_IN_WITHOUT_LOGIN")}
+              />
+            </View>
+            {switchLogin ? <Registry /> : <Login />}
+          </View>
+        </>
+      ) : null}
+    </>
   );
 }
 
