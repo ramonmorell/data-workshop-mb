@@ -50,7 +50,7 @@ export default function UseHttpClient() {
     return response.json();
   };
 
-  const deleteMethod = async (url: string, data = {}) => {
+  const deleteMethod = async (url: string) => {
     const response = await fetch(url, {
       method: "DELETE", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
@@ -62,9 +62,8 @@ export default function UseHttpClient() {
       },
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
-    return response.json();
+    return response.statusText;
   };
 
   return {

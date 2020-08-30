@@ -37,12 +37,15 @@ export default function Projects() {
       });
   };
 
-  const deleteProject = () => {
+  const deleteProject = (value: string) => {
     loader.addLoader(Loaders.PROJECT);
     setErrorProjects(false);
+    const url = `${URLS.PROJECT}/${value}`;
     httpClient
-      .delete(URLS.PROJECT)
-      .then((response) => {})
+      .delete(url)
+      .then(() => {
+        getProjects();
+      })
       .catch((error) => {
         setErrorProjects(true);
       })
@@ -52,15 +55,19 @@ export default function Projects() {
   };
 
   useEffect(() => {
-    console.log(route);
     if (route === i18n.t("NAV.PROJECTS")) {
       getProjects();
     }
   }, [route]);
 
-  const createAlert = (value) => {
+  const createAlert = (value: string) => {
     const buttons: AlertButton[] = [
-      { text: i18n.t("PROJECTS.ALERT_DELETE_ACCEPT"), onPress: () => {} },
+      {
+        text: i18n.t("PROJECTS.ALERT_DELETE_ACCEPT"),
+        onPress: () => {
+          deleteProject(value);
+        },
+      },
       {
         text: i18n.t("PROJECTS.ALERT_DELETE_CANCEL"),
         onPress: () => {},
@@ -76,7 +83,6 @@ export default function Projects() {
   };
 
   const handlePressDelete = useCallback((value) => {
-    console.log(value);
     createAlert(value);
   }, []);
 
