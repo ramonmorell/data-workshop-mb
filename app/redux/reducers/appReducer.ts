@@ -53,7 +53,7 @@ export const removeLoader = (loader: string) => ({
   payload: loader,
 });
 
-export const cleanLoader = (loader: string) => ({
+export const cleanLoader = () => ({
   type: ActionTypes.CLEAR_LOADER,
 });
 

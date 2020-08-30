@@ -18,8 +18,8 @@ export default function UseLoader() {
     dispatcher(removeLoaderAction(loader));
   }, []);
 
-  const cleanLoader = useCallback((loader: string) => {
-    dispatcher(cleanLoaderAction(loader));
+  const cleanLoader = useCallback(() => {
+    dispatcher(cleanLoaderAction());
   }, []);
 
   return {

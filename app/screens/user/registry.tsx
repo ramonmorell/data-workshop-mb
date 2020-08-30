@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import i18n from "i18n-js";
 
-import GlobalStyles from "../../constants/globalStyles";
+import GlobalStyles, { Colors } from "../../constants/globalStyles";
 import { Countries } from "../../constants/countries";
 import { ICountry } from "../../types/countries";
 import useLoader from "../../hooks/useLoader";
@@ -85,7 +85,7 @@ export default function Registry() {
       <View style={styles.submitContainer}>
         <Button
           onPress={handlePressSubmit}
-          color="green"
+          color={Colors.success}
           title={i18n.t("USER.REGISTER")}
         />
       </View>

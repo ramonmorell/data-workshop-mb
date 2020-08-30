@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { View, StyleSheet, Text, TextInput, Button, Alert } from "react-native";
 import i18n from "i18n-js";
 
-import GlobalStyles from "../../constants/globalStyles";
+import GlobalStyles, { Colors } from "../../constants/globalStyles";
 import useHttpClient from "../../hooks/useHttpClient";
 import URLS from "../../constants/urls";
 
@@ -68,6 +68,7 @@ export default function ProjectFactory() {
         <Button
           onPress={handlePressSubmit}
           title={i18n.t("WORKSHOP.SAVE")}
+          color={Colors.success}
           disabled={disableSubmit}
         />
       </View>

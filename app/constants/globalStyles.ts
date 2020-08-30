@@ -1,4 +1,14 @@
 import { StyleSheet } from "react-native";
+
+export enum Colors {
+  primary = "#2196f3",
+  primaryLight = "#dfebf5",
+  primaryDark = "#0f8cf5",
+  danger = "#A52A2A",
+  success = "#32CD32",
+  grey = "#778899",
+}
+
 const GlobalStyles = StyleSheet.create({
   title: {
     fontSize: 20,
@@ -14,7 +24,7 @@ const GlobalStyles = StyleSheet.create({
     fontSize: 20,
     height: 35,
     width: "100%",
-    borderColor: "grey",
+    borderColor: Colors.grey,
     borderWidth: 1,
     borderRadius: 10,
     padding: 5,
@@ -22,7 +32,7 @@ const GlobalStyles = StyleSheet.create({
   textArea: {
     fontSize: 20,
     width: "100%",
-    borderColor: "grey",
+    borderColor: Colors.grey,
     borderWidth: 1,
     borderRadius: 10,
     padding: 5,
@@ -30,12 +40,5 @@ const GlobalStyles = StyleSheet.create({
     textAlignVertical: "top",
   },
 });
-
-export enum Colors {
-  primary = "#2196f3",
-  primaryLight = "#dfebf5",
-  primaryDark = "#0f8cf5",
-  danger = "#A52A2A",
-}
 
 export default GlobalStyles;

@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 import i18n from "i18n-js";
 
-import GlobalStyles from "../../constants/globalStyles";
+import GlobalStyles, { Colors } from "../../constants/globalStyles";
 import useLoader from "../../hooks/useLoader";
 import { Loaders } from "../../constants/loaders";
 
@@ -46,7 +46,7 @@ export default function Login() {
       <View style={styles.submitContainer}>
         <Button
           onPress={handlePressSubmit}
-          color="green"
+          color={Colors.success}
           title={i18n.t("USER.LOG_IN")}
         />
       </View>
