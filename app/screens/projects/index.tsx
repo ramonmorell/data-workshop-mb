@@ -3,6 +3,7 @@ import { View, Text, FlatList, Alert, AlertButton } from "react-native";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../redux/types";
 
+import ProjectSearch from "./projectSearch";
 import ProjectResume from "./projectResume";
 import { Project } from "../../types/projects";
 import useHttpClient from "../../hooks/useHttpClient";
@@ -13,17 +14,20 @@ import { Loaders } from "../../constants/loaders";
 import i18n from "i18n-js";
 
 export default function Projects() {
+  const [searchValueProjects, setSearchValueProjects] = useState("");
   const [dataProjects, setDataProjects] = useState<Project[]>([]);
   const [errorProjects, setErrorProjects] = useState(false);
+
   const httpClient = useHttpClient();
   const route = useSelector((state: ReduxState) => state.app.route);
   const loader = useLoader();
 
-  const getProjects = () => {
+  const getProjects = (name?: string) => {
     loader.addLoader(Loaders.PROJECT);
     setErrorProjects(false);
+    const url = name ? `${URLS.PROJECTS}?name=${name}` : URLS.PROJECTS;
     httpClient
-      .get(URLS.PROJECTS)
+      .get(url)
       .then((response) => {
         setDataProjects(
           response.map((project: Project) => mapProject(project))
@@ -44,7 +48,7 @@ export default function Projects() {
     httpClient
       .delete(url)
       .then(() => {
-        getProjects();
+        getProjects(searchValueProjects);
       })
       .catch((error) => {
         setErrorProjects(true);
@@ -54,11 +58,15 @@ export default function Projects() {
       });
   };
 
+  const handleSearch = useCallback((value: string) => {
+    setSearchValueProjects(value);
+  }, []);
+
   useEffect(() => {
     if (route === i18n.t("NAV.PROJECTS")) {
-      getProjects();
+      getProjects(searchValueProjects);
     }
-  }, [route]);
+  }, [searchValueProjects, route]);
 
   const createAlert = (value: string) => {
     const buttons: AlertButton[] = [
@@ -81,7 +89,6 @@ export default function Projects() {
       { cancelable: false }
     );
   };
-
   const handlePressDelete = useCallback((value) => {
     createAlert(value);
   }, []);
@@ -97,16 +104,20 @@ export default function Projects() {
     ),
     [dataProjects]
   );
+
   return (
     <View>
       {errorProjects ? (
         <Text>{i18n.t("PROJECTS.ERROR_LOADING")}</Text>
       ) : (
-        <FlatList
-          data={dataProjects}
-          renderItem={renderItem}
-          keyExtractor={(item: Project) => item.id}
-        />
+        <>
+          <ProjectSearch onSearch={handleSearch} />
+          <FlatList
+            data={dataProjects}
+            renderItem={renderItem}
+            keyExtractor={(item: Project) => item.id}
+          />
+        </>
       )}
     </View>
   );
