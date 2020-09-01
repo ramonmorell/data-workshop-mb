@@ -8,7 +8,6 @@ import ProjectResume from "./projectResume";
 import { Project } from "../../types/projects";
 import useHttpClient from "../../hooks/useHttpClient";
 import URLS from "../../constants/urls";
-import { mapProject } from "./utils";
 import useLoader from "../../hooks/useLoader";
 import { Loaders } from "../../constants/loaders";
 import i18n from "i18n-js";
@@ -29,9 +28,7 @@ export default function Projects() {
     httpClient
       .get(url)
       .then((response) => {
-        setDataProjects(
-          response.map((project: Project) => mapProject(project))
-        );
+        setDataProjects(response);
       })
       .catch((error) => {
         setErrorProjects(true);
@@ -93,13 +90,52 @@ export default function Projects() {
     createAlert(value);
   }, []);
 
+  const handlePressFavourite = useCallback(
+    (projectId, favouriteId, favouriteActive) => {
+      loader.addLoader(Loaders.PROJECT);
+      setErrorProjects(false);
+      if (favouriteActive) {
+        const url = `${URLS.FAVOURITE}/${favouriteId}`;
+        httpClient
+          .delete(url)
+          .then(() => {
+            getProjects(searchValueProjects);
+          })
+          .catch((error) => {
+            setErrorProjects(true);
+          })
+          .finally(() => {
+            loader.removeLoader(Loaders.PROJECT);
+          });
+      } else {
+        const data = {
+          idUser: 0,
+          idProject: projectId,
+        };
+        httpClient
+          .post(URLS.FAVOURITE, data)
+          .then(() => {
+            console.log("THEN");
+            getProjects(searchValueProjects);
+          })
+          .catch((error) => {
+            console.log("ERROR");
+            setErrorProjects(true);
+          })
+          .finally(() => {
+            loader.removeLoader(Loaders.PROJECT);
+          });
+      }
+    },
+    []
+  );
+
   const renderItem = useCallback(
     ({ item }) => (
       <ProjectResume
-        id={item.id}
-        name={item.name}
-        description={item.description}
+        project={item}
         onPressDelete={handlePressDelete}
+        onPressFavourite={handlePressFavourite}
       ></ProjectResume>
     ),
     [dataProjects]
@@ -115,7 +151,7 @@ export default function Projects() {
           <FlatList
             data={dataProjects}
             renderItem={renderItem}
-            keyExtractor={(item: Project) => item.id}
+            keyExtractor={(item: Project) => item.id.toString()}
           />
         </>
       )}

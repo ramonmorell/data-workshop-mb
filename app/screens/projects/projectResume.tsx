@@ -1,29 +1,61 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
+import { Project } from "../../types/projects";
 import { Colors } from "../../constants/globalStyles";
 
 interface Props {
-  id: number;
-  name: string;
-  description: string;
+  project: Project;
   onPressDelete?: (value: number) => void;
+  onPressFavourite?: (
+    idProject: number,
+    idFavourite: number,
+    active: boolean
+  ) => void;
 }
 
 export default function ProjectResume({
-  id,
-  name,
-  description,
+  project: { name, id, description, favourites },
   onPressDelete,
+  onPressFavourite,
 }: Props) {
-  const handlePress = useCallback(() => {
+  const [favouriteActive, setFavouriteActive] = useState<boolean>(
+    favourites.length > 0
+  );
+
+  useEffect(() => {
+    setFavouriteActive(favourites.length > 0);
+  }, [favourites]);
+
+  const handlePressDelete = useCallback(() => {
     if (typeof onPressDelete === "function") {
       onPressDelete(id);
     }
-  }, [onPressDelete]);
+  }, [onPressDelete, id]);
+
+  const handlePressFavourite = useCallback(() => {
+    if (typeof onPressFavourite === "function") {
+      onPressFavourite(id, favourites[0]?.id, favouriteActive);
+    }
+  }, [onPressFavourite, id, favourites, favouriteActive]);
+
   return (
     <View style={styles.container}>
+      <View style={styles.favouriteContainer}>
+        <TouchableOpacity
+          onPress={handlePressFavourite}
+          style={styles.touchableDelete}
+        >
+          <View style={styles.buttonDelete}>
+            <AntDesign
+              name="star"
+              size={24}
+              color={favouriteActive ? Colors.gold : Colors.primaryLight}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
       <View style={styles.nameDescriptionContainer}>
         <View style={styles.nameContainer}>
           <Text style={styles.name}>{name}</Text>
@@ -33,7 +65,10 @@ export default function ProjectResume({
         </View>
       </View>
       <View style={styles.buttonDeleteContainer}>
-        <TouchableOpacity onPress={handlePress} style={styles.touchableDelete}>
+        <TouchableOpacity
+          onPress={handlePressDelete}
+          style={styles.touchableDelete}
+        >
           <View style={styles.buttonDelete}>
             <AntDesign name="delete" size={16} color={Colors.danger} />
           </View>
@@ -54,9 +89,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  favouriteContainer: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
   nameDescriptionContainer: {
     flexDirection: "column",
-    flex: 5,
+    flex: 6,
   },
   nameContainer: {
     width: "100%",

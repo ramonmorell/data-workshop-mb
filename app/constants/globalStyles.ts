@@ -7,6 +7,7 @@ export enum Colors {
   danger = "#A52A2A",
   success = "#32CD32",
   grey = "#778899",
+  gold = "#ffd700",
 }
 
 const GlobalStyles = StyleSheet.create({
