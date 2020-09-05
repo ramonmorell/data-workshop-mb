@@ -6,64 +6,39 @@ import { ReduxState } from "../../redux/types";
 import ProjectSearch from "./projectSearch";
 import ProjectResume from "./projectResume";
 import { Project } from "../../types/projects";
-import useHttpClient from "../../hooks/useHttpClient";
 import URLS from "../../constants/urls";
-import useLoader from "../../hooks/useLoader";
-import { Loaders } from "../../constants/loaders";
 import i18n from "i18n-js";
+import useProject from "../../hooks/useProject";
+import useFavourites from "../../hooks/useFavourites";
 
 export default function Projects() {
   const [searchValueProjects, setSearchValueProjects] = useState("");
-  const [dataProjects, setDataProjects] = useState<Project[]>([]);
-  const [errorProjects, setErrorProjects] = useState(false);
 
-  const httpClient = useHttpClient();
   const route = useSelector((state: ReduxState) => state.app.route);
-  const loader = useLoader();
 
-  const getProjects = (name?: string) => {
-    loader.addLoader(Loaders.PROJECT);
-    setErrorProjects(false);
-    const url = name ? `${URLS.PROJECTS}?name=${name}` : URLS.PROJECTS;
-    httpClient
-      .get(url)
-      .then((response) => {
-        setDataProjects(response);
-      })
-      .catch((error) => {
-        setErrorProjects(true);
-      })
-      .finally(() => {
-        loader.removeLoader(Loaders.PROJECT);
-      });
-  };
+  const {
+    data: dataProjects,
+    error: errorProjects,
+    fetching: fetchingProjects,
+    getProjects,
+    deleteProject,
+  } = useProject(searchValueProjects);
 
-  const deleteProject = (value: string) => {
-    loader.addLoader(Loaders.PROJECT);
-    setErrorProjects(false);
-    const url = `${URLS.PROJECT}/${value}`;
-    httpClient
-      .delete(url)
-      .then(() => {
-        getProjects(searchValueProjects);
-      })
-      .catch((error) => {
-        setErrorProjects(true);
-      })
-      .finally(() => {
-        loader.removeLoader(Loaders.PROJECT);
-      });
-  };
+  const {
+    fetching: fetchingFavourites,
+    addFavourite,
+    deleteFavourite,
+  } = useFavourites();
+
+  useEffect(() => {
+    if (route === i18n.t("NAV.PROJECTS")) {
+      getProjects();
+    }
+  }, [searchValueProjects, route]);
 
   const handleSearch = useCallback((value: string) => {
     setSearchValueProjects(value);
   }, []);
-
-  useEffect(() => {
-    if (route === i18n.t("NAV.PROJECTS")) {
-      getProjects(searchValueProjects);
-    }
-  }, [searchValueProjects, route]);
 
   const createAlert = (value: string) => {
     const buttons: AlertButton[] = [
@@ -86,45 +61,32 @@ export default function Projects() {
       { cancelable: false }
     );
   };
+
   const handlePressDelete = useCallback((value) => {
     createAlert(value);
   }, []);
 
   const handlePressFavourite = useCallback(
-    (projectId, favouriteId, favouriteActive) => {
-      loader.addLoader(Loaders.PROJECT);
-      setErrorProjects(false);
+    (projectId: number, favouriteId: number, favouriteActive: boolean) => {
       if (favouriteActive) {
         const url = `${URLS.FAVOURITE}/${favouriteId}`;
-        httpClient
-          .delete(url)
+        deleteFavourite(favouriteId)
           .then(() => {
-            getProjects(searchValueProjects);
+            getProjects();
           })
-          .catch((error) => {
-            setErrorProjects(true);
-          })
-          .finally(() => {
-            loader.removeLoader(Loaders.PROJECT);
-          });
+          .catch((error) => {})
+          .finally(() => {});
       } else {
         const data = {
           idUser: 0,
           idProject: projectId,
         };
-        httpClient
-          .post(URLS.FAVOURITE, data)
+        addFavourite(data)
           .then(() => {
-            console.log("THEN");
-            getProjects(searchValueProjects);
+            getProjects();
           })
-          .catch((error) => {
-            console.log("ERROR");
-            setErrorProjects(true);
-          })
-          .finally(() => {
-            loader.removeLoader(Loaders.PROJECT);
-          });
+          .catch((error) => {})
+          .finally(() => {});
       }
     },
     []

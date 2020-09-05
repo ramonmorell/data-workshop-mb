@@ -1,17 +1,16 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { View, StyleSheet, Text, TextInput, Button, Alert } from "react-native";
 import i18n from "i18n-js";
 
 import GlobalStyles, { Colors } from "../../constants/globalStyles";
-import useHttpClient from "../../hooks/useHttpClient";
-import URLS from "../../constants/urls";
+import useProject from "../../hooks/useProject";
 
 export default function ProjectFactory() {
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [disableSubmit, setDisableSubmit] = useState(false);
 
-  const httpClient = useHttpClient();
+  const { fetching, addProject } = useProject();
 
   const handleProjectNameChange = useCallback((value) => {
     setProjectName(value);
@@ -22,25 +21,27 @@ export default function ProjectFactory() {
   }, []);
 
   const handlePressSubmit = useCallback(() => {
-    setDisableSubmit(true);
-
     const data = {
       name: projectName,
       description: projectDescription,
     };
 
-    httpClient
-      .post(URLS.PROJECT, data)
-      .then((response) => {
+    addProject(data)
+      .then(() => {
         Alert.alert("PROJECT ADDED", "Project added succesfully");
       })
-      .catch((error) => {
+      .catch(() => {
         Alert.alert("ERROR", "Error adding a project");
-      })
-      .finally(() => {
-        setDisableSubmit(false);
       });
   }, [projectName, projectDescription]);
+
+  useEffect(() => {
+    if (fetching) {
+      setDisableSubmit(true);
+    } else {
+      setDisableSubmit(false);
+    }
+  }, [fetching]);
 
   return (
     <View style={styles.container}>
