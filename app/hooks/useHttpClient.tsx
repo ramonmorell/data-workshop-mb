@@ -1,6 +1,5 @@
 export default function UseHttpClient() {
   const get = async (url: string) => {
-    console.log(url);
     const response = await fetch(url, {
       method: "GET", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
