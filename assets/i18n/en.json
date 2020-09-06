@@ -33,6 +33,10 @@
     "CREATE_NEW_PROJECT": "CREATE NEW PROJECT",
     "PROJECT_NAME": "Project Name",
     "PROJECT_DESCRIPTION": "Project Description",
-    "SAVE": "SAVE"
+    "SAVE": "SAVE",
+    "PROJECT_ADDED": "PROJECT ADDED",
+    "PROJECT_ADDED_DESCRIPTION": "Project added succesfully",
+    "PROJECT_ADDED_ERROR": "PROJECT ERROR",
+    "PROJECT_ADDED_ERROR_DESCRIPTION": "Error adding a project"
   }
 }

@@ -28,10 +28,16 @@ export default function ProjectFactory() {
 
     addProject(data)
       .then(() => {
-        Alert.alert("PROJECT ADDED", "Project added succesfully");
+        Alert.alert(
+          i18n.t("WORKSHOP.PROJECT_ADDED"),
+          i18n.t("WORKSHOP.PROJECT_ADDED_DESCRIPTION")
+        );
       })
       .catch(() => {
-        Alert.alert("ERROR", "Error adding a project");
+        Alert.alert(
+          i18n.t("WORKSHOP.PROJECT_ADDED_ERROR"),
+          i18n.t("WORKSHOP.PROJECT_ADDED_ERROR_DESCRIPTION")
+        );
       });
   }, [projectName, projectDescription]);
 

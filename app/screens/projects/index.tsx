@@ -1,8 +1,15 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { View, Text, FlatList, Alert, AlertButton } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Alert,
+  AlertButton,
+  StyleSheet,
+} from "react-native";
 import { useSelector } from "react-redux";
-import { ReduxState } from "../../redux/types";
 
+import { ReduxState } from "../../redux/types";
 import ProjectSearch from "./projectSearch";
 import ProjectResume from "./projectResume";
 import { Project } from "../../types/projects";
@@ -40,31 +47,37 @@ export default function Projects() {
     setSearchValueProjects(value);
   }, []);
 
-  const createAlert = (value: string) => {
-    const buttons: AlertButton[] = [
-      {
-        text: i18n.t("PROJECTS.ALERT_DELETE_ACCEPT"),
-        onPress: () => {
-          deleteProject(value);
+  const createAlert = useCallback(
+    (value: string) => {
+      const buttons: AlertButton[] = [
+        {
+          text: i18n.t("PROJECTS.ALERT_DELETE_ACCEPT"),
+          onPress: () => {
+            deleteProject(value);
+          },
         },
-      },
-      {
-        text: i18n.t("PROJECTS.ALERT_DELETE_CANCEL"),
-        onPress: () => {},
-        style: "cancel",
-      },
-    ];
-    Alert.alert(
-      i18n.t("PROJECTS.DELETE_PROJECT"),
-      i18n.t("PROJECTS.DELETE_PROJECT_DESCRIPTION"),
-      buttons,
-      { cancelable: false }
-    );
-  };
+        {
+          text: i18n.t("PROJECTS.ALERT_DELETE_CANCEL"),
+          onPress: () => {},
+          style: "cancel",
+        },
+      ];
+      Alert.alert(
+        i18n.t("PROJECTS.DELETE_PROJECT"),
+        i18n.t("PROJECTS.DELETE_PROJECT_DESCRIPTION"),
+        buttons,
+        { cancelable: false }
+      );
+    },
+    [deleteProject]
+  );
 
-  const handlePressDelete = useCallback((value) => {
-    createAlert(value);
-  }, []);
+  const handlePressDelete = useCallback(
+    (value) => {
+      createAlert(value);
+    },
+    [createAlert]
+  );
 
   const handlePressFavourite = useCallback(
     (projectId: number, favouriteId: number, favouriteActive: boolean) => {
@@ -89,7 +102,7 @@ export default function Projects() {
           .finally(() => {});
       }
     },
-    []
+    [deleteFavourite, addFavourite, getProjects]
   );
 
   const renderItem = useCallback(
@@ -104,12 +117,12 @@ export default function Projects() {
   );
 
   return (
-    <View>
+    <View style={styles.container}>
+      <ProjectSearch onSearch={handleSearch} />
       {errorProjects ? (
         <Text>{i18n.t("PROJECTS.ERROR_LOADING")}</Text>
       ) : (
         <>
-          <ProjectSearch onSearch={handleSearch} />
           <FlatList
             data={dataProjects}
             renderItem={renderItem}
@@ -120,3 +133,9 @@ export default function Projects() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

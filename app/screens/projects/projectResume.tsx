@@ -65,14 +65,16 @@ export default function ProjectResume({
         </View>
       </View>
       <View style={styles.buttonDeleteContainer}>
-        <TouchableOpacity
-          onPress={handlePressDelete}
-          style={styles.touchableDelete}
-        >
-          <View style={styles.buttonDelete}>
-            <AntDesign name="delete" size={16} color={Colors.danger} />
-          </View>
-        </TouchableOpacity>
+        {onPressDelete && (
+          <TouchableOpacity
+            onPress={handlePressDelete}
+            style={styles.touchableDelete}
+          >
+            <View style={styles.buttonDelete}>
+              <AntDesign name="delete" size={16} color={Colors.danger} />
+            </View>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
